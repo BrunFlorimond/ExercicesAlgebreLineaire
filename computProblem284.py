@@ -7,15 +7,19 @@ import GF2
 import chap2
 
 
+#Puzzle
+s = {(1, 2): one, (3, 2): 0, (0, 0): one, (3, 0): 0, (0, 4): 0, (1, 4): one, (1, 3): 0, (2, 3): 0, (2, 1): one, (4, 2): 0, (1, 0): one, (0, 3): one, (4, 0): one, (0, 1): one, (0, 2): one, (3, 3): one, (4, 1): one, (3, 1): 0, (4, 4): one, (2, 4): one, (2, 0): one, (4, 3): one, (2, 2): one, (3, 4): one, (1, 1): one}
+
 # map (int,int) GF2 -> [(Vec,[(Int,Int)])]
 # Fonction qui résout le puzzle : prend un puzzle et retourne une liste de tuple chacun comprenant le vecteur s et les
 # appuis successifs de cadrans nécéssaires pour le résoudre
 def resolveLightsOut(s):
     buttons = produceAllButtons(s)
+    #Puzzle en vecteur
     sVec = chap2.Vec(set(s.keys()), s)
     result=[]
     n=0
-    # map (int,int) GF2 -> [map (int,int) GF2] -> Int -> [map (int,int) GF2]
+    # [(Vec,(int,int))] -> [(Vec,[(Int,Int)])]
     # (filterWrongResults s) . reduceCombinations . produceCombinations $ n buttons
     go = lambda n: filterWrongResults(sVec,reduceCombinations(produceCombinations(n,buttons)))
     while (not result) and n <= len(buttons):
@@ -24,8 +28,8 @@ def resolveLightsOut(s):
     return result
 
 
-# map (int,int) GF2 -> [Vec]
-# Produit tous les boutons possibles d'un vecteur
+# map (int,int) GF2 -> [(Vec,(int,int))]
+# Produit tous les boutons et leurs impacts du puzzle
 def produceAllButtons(s):
     minmax = [[reduce(fun,[x[y] for x in s.keys()]) for y in [0,1]]
               for fun in [min,max]]

@@ -8,7 +8,9 @@ import chap2
 
 
 #Puzzle
-s = {(1, 2): one, (3, 2): 0, (0, 0): one, (3, 0): 0, (0, 4): 0, (1, 4): one, (1, 3): 0, (2, 3): 0, (2, 1): one, (4, 2): 0, (1, 0): one, (0, 3): one, (4, 0): one, (0, 1): one, (0, 2): one, (3, 3): one, (4, 1): one, (3, 1): 0, (4, 4): one, (2, 4): one, (2, 0): one, (4, 3): one, (2, 2): one, (3, 4): one, (1, 1): one}
+s = {(1, 2): one, (3, 2): 0, (0, 0): one, (3, 0): 0, (0, 4): 0, (1, 4): one, (1, 3): 0, (2, 3): 0, (2, 1): one, (4, 2): 0,
+(1, 0): one, (0, 3): one, (4, 0): one, (0, 1): one, (0, 2): one, (3, 3): one, (4, 1): one, (3, 1): 0, (4, 4): one, (2, 4): one,
+(2, 0): one, (4, 3): one, (2, 2): one, (3, 4): one, (1, 1): one}
 
 # map (int,int) GF2 -> [(Vec,[(Int,Int)])]
 # Fonction qui résout le puzzle : prend un puzzle et retourne une liste de tuple chacun comprenant le vecteur s et les

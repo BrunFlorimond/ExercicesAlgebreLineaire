@@ -59,7 +59,7 @@ def reduceCombinations(llob):
     return list(map(reduceSubsets,llob))
 
 
-# [Vec] -> [Vec]
+# [(Vec,[(Int,Int)]] -> [(Vec,[(Int,Int)])]
 # Renvoi les combinaison de boutons égale à s si elle existe sinon une liste vide
 def filterWrongResults(s,xs):
     equals = lambda x: all([chap2.getItem(s,k) == chap2.getItem(x[0],k) for k in s.D])

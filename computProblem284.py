@@ -7,7 +7,7 @@ import GF2
 import chap2
 
 
-# map (int,int) GF2 -> [Vec,[(Int,Int)]]
+# map (int,int) GF2 -> [(Vec,[(Int,Int)])]
 # Fonction qui résout le puzzle : prend un puzzle et retourne une liste de tuple chacun comprenant le vecteur s et les
 # appuis successifs de cadrans nécéssaires pour le résoudre
 def resolveLightsOut(s):

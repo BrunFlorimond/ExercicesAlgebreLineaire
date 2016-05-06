@@ -16,14 +16,16 @@ s = {(1, 2): GF2.one, (3, 2): 0, (0, 0): GF2.one, (3, 0): 0, (0, 4): 0, (1, 4): 
 # Fonction qui résout le puzzle : prend un puzzle et retourne une liste de tuple chacun comprenant le vecteur s et les
 # appuis successifs de cadrans nécéssaires pour le résoudre
 def resolveLightsOut(s):
-    buttons = produceAllButtons(s)
+    minmax = [[reduce(fun, [x[y] for x in s.keys()]) for y in [0, 1]]
+              for fun in [min, max]]
+    buttons = produceAllButtons(s,minmax)
     #Puzzle en vecteur
     sVec = chap2.Vec(set(s.keys()), s)
     result=[]
     n=0
     # [(Vec,(int,int))] -> [(Vec,[(Int,Int)])]
     # (filterWrongResults s) . reduceCombinations . produceCombinations $ n buttons
-    go = lambda n: filterWrongResults(sVec,reduceCombinations(produceCombinations(n,buttons)))
+    go = lambda n: filterWrongResults(sVec,reduceCombinations(produceCombinations(n,buttons),minmax))
     while (not result) and n <= len(buttons):
         n = n+1
         result = go(n)
@@ -32,9 +34,7 @@ def resolveLightsOut(s):
 
 # map (int,int) GF2 -> [(Vec,(int,int))]
 # Produit tous les boutons et leurs impacts du puzzle
-def produceAllButtons(s):
-    minmax = [[reduce(fun,[x[y] for x in s.keys()]) for y in [0,1]]
-              for fun in [min,max]]
+def produceAllButtons(s,minmax):
     return [createButton(i,j,minmax)
             for i in range(minmax[0][0],minmax[1][0]+1)
             for j in range (minmax[0][1],minmax[1][1]+1)]
@@ -56,9 +56,9 @@ def produceCombinations(n,lob):
 
 # [((Vec,(int,int)))] -> [(Vec,[(int,int)]]
 # Additionne chaque combinaison de bouton
-def reduceCombinations(llob):
+def reduceCombinations(llob,minmax):
     def reduceSubsets(tos):
-        r = (myVec.zeroVec({(i, j) for i in range(0, 5) for j in range(0, 5)}), [])
+        r = (myVec.zeroVec({(i, j) for i in range(minmax[0][0], minmax[1][0]) for j in range(minmax[0][1], minmax[1][1])}), [])
         for i in tos:
             r = (myVec.add(r[0], i[0]), r[1] + [i[1]])
         return r

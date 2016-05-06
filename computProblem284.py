@@ -4,7 +4,7 @@
 from functools import reduce
 from itertools import combinations
 import GF2
-import chap2
+import myVec
 
 
 #Puzzle
@@ -45,7 +45,7 @@ def createButton(i,j,minmax):
     max1Diff = lambda k,l: abs(k-i)+abs(l-j) <= 1
     checkBound = lambda k,l:  minmax[0][0] <= k <= minmax[1][0] and minmax[0][1] <= l <= minmax[1][1]
     dict = {(k,l): GF2.one for k in range (i-1,i+2) for l in range (j-1,j+2) if max1Diff(k, l) and checkBound(k, l) }
-    return (chap2.Vec(set(dict.keys()),dict),(i,j))
+    return (myVec.Vec(set(dict.keys()),dict),(i,j))
 
 
 # Int -> [(Vec,(int,int)] -> [[(Vec,(int,int))]]
@@ -58,9 +58,9 @@ def produceCombinations(n,lob):
 # Additionne chaque combinaison de bouton
 def reduceCombinations(llob):
     def reduceSubsets(tos):
-        r = (chap2.zeroVec({(i, j) for i in range(0, 5) for j in range(0, 5)}), [])
+        r = (myVec.zeroVec({(i, j) for i in range(0, 5) for j in range(0, 5)}), [])
         for i in tos:
-            r = (chap2.add(r[0], i[0]), r[1] + [i[1]])
+            r = (myVec.add(r[0], i[0]), r[1] + [i[1]])
         return r
     return list(map(reduceSubsets,llob))
 
@@ -68,7 +68,7 @@ def reduceCombinations(llob):
 # [(Vec,[(Int,Int)]] -> [(Vec,[(Int,Int)])]
 # Renvoi les combinaison de boutons égale à s si elle existe sinon une liste vide
 def filterWrongResults(s,xs):
-    equals = lambda x: all([chap2.getItem(s,k) == chap2.getItem(x[0],k) for k in s.D])
+    equals = lambda x: all([myVec.getItem(s,k) == myVec.getItem(x[0],k) for k in s.D])
     return list(filter(equals, xs))
 
 

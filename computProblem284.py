@@ -12,7 +12,7 @@ s = {(1, 2): GF2.one, (3, 2): 0, (0, 0): GF2.one, (3, 0): 0, (0, 4): 0, (1, 4): 
 (1, 0): GF2.one, (0, 3): GF2.one, (4, 0): GF2.one, (0, 1): GF2.one, (0, 2): GF2.one, (3, 3): GF2.one, (4, 1): GF2.one, (3, 1): 0, (4, 4): one, (2, 4): one,
 (2, 0): GF2.one, (4, 3): GF2.one, (2, 2): GF2.one, (3, 4): GF2.one, (1, 1): GF2.one}
 
-# map (int,int) GF2 -> [(Vec,[(Int,Int)])]
+# resolveLightsOut(s) :: map (int,int) GF2 -> [(Vec,[(Int,Int)])]
 # Fonction qui résout le puzzle : prend un puzzle et retourne une liste de tuple chacun comprenant le vecteur s et les
 # appuis successifs de cadrans nécéssaires pour le résoudre
 def resolveLightsOut(s):
@@ -32,14 +32,14 @@ def resolveLightsOut(s):
     return result
 
 
-# map (int,int) GF2 -> [(Vec,(int,int))]
+# produceAllButtons(s,minmax) :: map (int,int) GF2 -> [(Vec,(int,int))]
 # Produit tous les boutons et leurs impacts du puzzle
 def produceAllButtons(s,minmax):
     return [createButton(i,j,minmax)
             for i in range(minmax[0][0],minmax[1][0]+1)
             for j in range (minmax[0][1],minmax[1][1]+1)]
 
-# Int -> Int -> [[Int]] -> (Vec,(int,int))
+# createButton(i,j,minmax) :: Int -> Int -> [[Int]] -> (Vec,(int,int))
 # Produit l'appui sur i,j (switch des 4 boutons a cotés)
 def createButton(i,j,minmax):
     max1Diff = lambda k,l: abs(k-i)+abs(l-j) <= 1
@@ -48,13 +48,13 @@ def createButton(i,j,minmax):
     return (myVec.Vec(set(dict.keys()),dict),(i,j))
 
 
-# Int -> [(Vec,(int,int)] -> [[(Vec,(int,int))]]
+# produceCombinations(n,lob) :: Int -> [(Vec,(int,int)] -> [[(Vec,(int,int))]]
 # Produit toutes les n-combinaisons de boutons:
 def produceCombinations(n,lob):
     return list(combinations(lob,n))
 
 
-# [((Vec,(int,int)))] -> [(Vec,[(int,int)]]
+# reduceCombinations(llob,minmax) :: [((Vec,(int,int)))] -> [(Vec,[(int,int)]]
 # Additionne chaque combinaison de bouton
 def reduceCombinations(llob,minmax):
     def reduceSubsets(tos):
@@ -65,7 +65,7 @@ def reduceCombinations(llob,minmax):
     return list(map(reduceSubsets,llob))
 
 
-# [(Vec,[(Int,Int)]] -> [(Vec,[(Int,Int)])]
+# filterWrongResults(s,xs) :: [(Vec,[(Int,Int)]] -> [(Vec,[(Int,Int)])]
 # Renvoi les combinaison de boutons égale à s si elle existe sinon une liste vide
 def filterWrongResults(s,xs):
     equals = lambda x: all([myVec.getItem(s,k) == myVec.getItem(x[0],k) for k in s.D])
